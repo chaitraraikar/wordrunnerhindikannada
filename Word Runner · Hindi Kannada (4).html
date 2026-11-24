@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Word Runner · Hindi Kannada</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Noto+Sans+Devanagari:wght@700&family=Noto+Sans+Kannada:wght@700&display=swap">
+<style>
+:root{--pn:#fff;--ink:#241a4d;--mut:#6f6a8f;--acc:#ff5a3c;--acc2:#6c4cf1;--chip:#efeaff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--pn:#2a2260;--ink:#f6f2ff;--mut:#c0b9ec;--chip:#3b3380}}
+:root[data-theme="dark"]{--pn:#2a2260;--ink:#f6f2ff;--mut:#c0b9ec;--chip:#3b3380}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;overflow:hidden;background:#1a1040;font-family:'Baloo 2','Noto Sans Devanagari','Noto Sans Kannada','Nirmala UI',system-ui,sans-serif;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+body{position:relative}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+#hud{position:absolute;left:0;right:0;top:0;display:none;justify-content:space-between;padding:10px 14px;font-weight:800;font-size:20px;color:#fff;pointer-events:none;text-shadow:0 2px 6px #000a}
+#wb{position:absolute;left:50%;top:46px;transform:translateX(-50%);text-align:center;background:#0a0620cc;border:3px solid #ffd54a;border-radius:22px;padding:4px 22px 6px;color:#fff;display:none;min-width:140px;pointer-events:none;box-shadow:0 0 22px #ffd54a66}
+#wb.ok{border-color:#2ee59d;background:#0a3d2ccc;box-shadow:0 0 22px #2ee59d88}
+#wt{display:block;font-size:min(15vw,68px);line-height:1.25;font-family:'Noto Sans Devanagari','Noto Sans Kannada','Nirmala UI',sans-serif}
+#ws{font-size:34px;line-height:1.1}#mm{color:#e5484d;font-weight:800;margin:6px 0}#hd{font-size:18px;min-height:24px;color:#ffd54a;font-weight:600}
+#poem{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#120a33ee;padding:12px;text-align:center}
+#pt{font-size:min(9vw,40px);font-weight:800;color:var(--acc);line-height:1.5;margin:10px 0;min-height:90px;font-family:'Noto Sans Devanagari',sans-serif}#pt.ok{color:#1fb36b}
+#pstep{font-weight:800;color:var(--acc2)}#phd{min-height:24px;color:var(--mut);font-weight:600}
+#pbar{height:10px;background:var(--chip);border-radius:9px;margin:6px 0;overflow:hidden}#pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),#ffb02e);transition:width .3s}#ptx{height:170px}
+#wr{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#120a33ee;padding:12px;text-align:center}#we{font-size:70px;line-height:1.1}#ww{font-size:min(11vw,52px);font-weight:800;color:var(--acc);font-family:'Noto Sans Devanagari','Noto Sans Kannada',sans-serif;min-height:68px}#win{width:100%;font-size:32px;padding:10px;border-radius:14px;border:3px solid var(--chip);background:var(--chip);color:var(--ink);text-align:center;font-family:'Noto Sans Devanagari','Noto Sans Kannada',system-ui,sans-serif}#wf{min-height:28px;font-weight:800;margin:6px 0}
+#sx{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#120a33ee;padding:12px;text-align:center}.srow{display:flex;align-items:center;gap:10px;background:var(--chip);border-radius:12px;padding:8px 10px;margin:6px 0;text-align:left;font-weight:800}.srow span{flex:1}.srow button{border:0;border-radius:10px;padding:6px 10px;background:var(--pn);color:var(--ink);font:700 14px inherit;font-family:inherit}.srow input{width:22px;height:22px}#sbody{height:110px}#sname{width:100%;padding:10px;border-radius:12px;border:2px solid var(--chip);background:var(--chip);color:var(--ink);font:700 16px inherit;font-family:inherit;margin-top:6px}#smsg{min-height:24px;font-weight:700;color:var(--acc2)}
+#cx{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#120a33ee;padding:12px;text-align:center}#cx input{width:100%;padding:10px;border-radius:12px;border:2px solid var(--chip);background:var(--chip);color:var(--ink);font:700 16px inherit;font-family:inherit;margin-top:6px}#cmsg{min-height:24px;font-weight:700;color:var(--acc2);margin:6px 0}
+#wb.lg{width:94vw}#wb.lg #wt{font-size:min(6vw,30px);line-height:1.4}
+#pchips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:6px 0}#pchips button{padding:10px 14px;border:0;border-radius:14px;background:var(--chip);color:var(--ink);font:800 22px 'Noto Sans Devanagari',sans-serif;cursor:pointer}#oh{font-size:20px;font-weight:600;color:var(--mut);margin-top:4px;min-height:26px}
+#menu,#over{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#120a33dd;padding:12px;text-align:center}
+#over{display:none}
+.box{background:var(--pn);color:var(--ink);border-radius:26px;padding:16px;width:min(94%,420px);max-height:96%;overflow:auto;box-shadow:0 12px 40px #0008}
+h1{margin:0 0 4px;font-size:30px;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{margin:0}p{margin:6px 0 10px;color:var(--mut);font-weight:600}
+.seg{display:flex;gap:8px;margin:8px 0}
+.seg button,button.sm{flex:1;padding:11px;border:0;border-radius:14px;background:var(--chip);color:var(--ink);font:800 18px inherit;font-family:inherit;cursor:pointer}
+.seg button.on{background:var(--acc2);color:#fff}
+.chk{display:block;margin:8px 0;font-weight:600}
+button.big{width:100%;padding:15px;border:0;border-radius:18px;background:linear-gradient(135deg,var(--acc),#ffb02e);color:#fff;font:800 24px inherit;font-family:inherit;margin-top:8px;cursor:pointer;box-shadow:0 6px 18px #ff5a3c55}
+button.sm{width:100%;margin-top:8px}
+#best{margin:8px 0;font-weight:800;color:var(--acc2)}
+#ow{font-size:64px;font-weight:800;color:var(--acc);line-height:1.3;font-family:'Noto Sans Devanagari','Noto Sans Kannada',sans-serif}
+#om{font-size:22px;color:var(--mut);font-weight:600}#os{font-size:22px;font-weight:800;color:var(--ink)}
+details{margin-top:10px;text-align:left}summary{font-weight:800;cursor:pointer}
+textarea{width:100%;height:84px;margin-top:6px;border-radius:12px;border:2px solid var(--chip);padding:8px;font:16px 'Noto Sans Devanagari','Noto Sans Kannada',system-ui,sans-serif;background:var(--chip);color:var(--ink)}
+small{color:var(--mut);display:block;margin-top:6px}
+</style></head><body>
+<canvas id="cv"></canvas>
+<div id="hud"><span id="hl"></span><span id="hm"></span><span id="hs"></span></div>
+<div id="wb"><b id="wt"></b><span id="ws"></span><div id="hd"></div></div>
+<div id="menu"><div class="box">
+<h1>WORD RUNNER 🏃💨</h1>
+<p>Read the word out loud to jump the obstacle. Wrong or too slow = crash!</p>
+<div class="seg" id="lg"><button data-l="hi" class="on">हिन्दी</button><button data-l="kn">ಕನ್ನಡ</button></div>
+<div class="seg" id="lv"><button data-v="1" class="on">Hard ❤️</button><button data-v="5">Easy ❤️❤️❤️</button></div>
+<div class="seg" id="sg"><button data-t=".7" class="on">Smart ears</button><button data-t=".85">Strict ears</button></div>
+<p id="mm"></p>
+<button class="big" id="go">▶ START</button>
+<button class="big" id="prun">🏃 Poem Runner (say the full phrase)</button>
+<button class="sm" id="pm">📜 Poem practice (Hindi)</button>
+<button class="sm" id="wm">✍️ Writing practice</button>
+<button class="sm" id="sm">📚 Word sections (choose what to play)</button>
+<button class="sm" id="cm" style="display:none">☁️ Cloud sync (Supabase)</button>
+<small id="act"></small><small id="sync"></small>
+<div id="best"></div>
+<details style="display:none"><summary>Add my own words</summary>
+<textarea id="mine" placeholder="One word per line. Emoji is optional:&#10;घर | 🏠&#10;पानी"></textarea>
+<button class="sm" id="sv">Save words for this language</button></details>
+<small>Starts with 2-letter words; longer words come as you score. Turn the phone sideways, open in Chrome and allow the microphone.</small>
+</div></div>
+<div id="cx"><div class="box"><h2>☁️ Cloud sync</h2><small>Your words, poem and scores are saved in your own free Supabase project, so every device you sign in on shows the same data.</small>
+<input id="cu" placeholder="Project URL (https://xxxx.supabase.co)" autocomplete="off">
+<input id="ck" placeholder="Publishable (or anon) key" autocomplete="off">
+<input id="ce" type="email" placeholder="Your email">
+<input id="cp" type="password" placeholder="Password">
+<button class="big" id="cin">Sign in &amp; sync</button>
+<div class="seg"><button id="cnow">🔄 Sync now</button><button id="cout">Sign out</button></div>
+<button class="sm" id="clink">📲 Copy setup link for another device</button>
+<div id="cmsg"></div><button class="sm" id="cback">← Menu</button></div></div>
+<div id="sx"><div class="box"><h2>📚 Word sections</h2><small>Language: <b id="slang"></b> (change it on the menu). Tick the sections you want in the game.</small>
+<div id="slist"></div>
+<input id="sname" placeholder="Name for a new section (e.g. Animals)">
+<textarea id="sbody" placeholder="One word per line. Emoji is optional:&#10;घर | 🏠&#10;पानी"></textarea>
+<div class="seg"><label style="flex:1;padding:11px;border-radius:14px;background:var(--chip);font-weight:800;cursor:pointer">📂 Upload a text file<input id="sfile" type="file" accept=".txt,.csv,text/plain" style="display:none"></label></div>
+<button class="big" id="ssave">+ Save as new section</button><div id="smsg"></div>
+<small><b>Move to another device</b></small>
+<div class="seg"><button id="bdl">⬇ Backup file</button><label style="flex:1;padding:11px;border-radius:14px;background:var(--chip);font-weight:800;cursor:pointer">⬆ Restore<input id="rfile" type="file" accept=".json,application/json" style="display:none"></label></div>
+<button class="sm" id="blink">🔗 Make a share link</button><input id="slink" readonly style="display:none;width:100%;margin-top:6px;padding:8px;border-radius:10px;border:2px solid var(--chip);background:var(--chip);color:var(--ink)">
+<button class="big" id="simp" style="display:none">⬇ Import shared set</button>
+<button class="sm" id="bsql">📤 Make Supabase upload SQL (teacher)</button><textarea id="ssql" readonly style="display:none;height:120px;width:100%;margin-top:6px"></textarea>
+<button class="sm" id="sback">← Menu</button></div></div>
+<div id="wr"><div class="box"><h2>✍️ Writing practice</h2><small id="wstep"></small>
+<div id="we"></div><div id="ww"></div>
+<input id="win" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Write here...">
+<div id="wf"></div>
+<div class="seg"><button id="wh">🔊 Hear</button><button id="wpk">💡 Show word</button></div>
+<button class="big" id="wchk">✓ Check</button>
+<div class="seg"><button id="wskip">Skip ▶</button><button id="wback">← Menu</button></div>
+<small>Write with a Hindi or Kannada handwriting keyboard (on a laptop, Google Input Tools). Choose the language on the menu first.</small>
+</div></div>
+<div id="poem"><div class="box">
+<div id="pset"><h2>📜 Poem practice</h2><p>Paste the Hindi poem once. It is cut into short phrases and taught in order, one phrase at a time.</p>
+<div id="plist"></div><textarea id="ptx" placeholder="Paste the poem here..."></textarea><small id="pcnt"></small>
+<button class="big" id="pstart">▶ Start learning</button><button class="sm" id="pback0">← Menu</button></div>
+<div id="pplay" style="display:none"><small id="ppos"></small><div id="pbar"><i></i></div><div id="pstep"></div>
+<div id="pt"></div><div id="pchips"></div><div id="phd"></div>
+<div class="seg"><button id="phear">🔊 Hear</button><button id="pmic">🎤 Say it</button></div>
+<div class="seg"><button id="pprev">◀ Back</button><button id="ppeek">💡 Peek</button><button id="pskip">Skip ▶</button></div>
+<button class="sm" id="pedit">Edit poem / Menu</button></div>
+</div></div>
+<div id="over"><div class="box">
+<h2>💥 Crash!</h2><p>You missed this word:</p>
+<div id="ow"></div><div id="om"></div><div id="oh"></div>
+<button class="sm" id="lis">🔊 Hear it</button>
+<p id="os"></p>
+<button class="big" id="again">↻ Play again</button>
+<button class="sm" id="home">Menu</button>
+</div></div>
+<script>
+// ===== TEACHER: paste your Supabase Project URL and publishable key between the quotes =====
+const CLOUD={url:'',key:''};
+const D={hi:{c:'hi-IN',w:[['आम','aam','🥭'],['घर','ghar','🏠'],['पानी','paani','💧'],['फूल','phool','🌸'],['किताब','kitaab','📖'],['सूरज','sooraj','☀️'],['चाँद','chaand','🌙'],['मछली','machhli','🐟'],['पेड़','ped','🌳'],['गाय','gaay','🐄'],['बिल्ली','billi','🐱'],['कुत्ता','kutta','🐶']]},
+kn:{c:'kn-IN',w:[['ಮಾವು','maavu','🥭'],['ಮನೆ','mane','🏠'],['ನೀರು','neeru','💧'],['ಹೂವು','hoovu','🌸'],['ಪುಸ್ತಕ','pustaka','📖'],['ಸೂರ್ಯ','soorya','☀️'],['ಚಂದ್ರ','chandra','🌙'],['ಮೀನು','meenu','🐟'],['ಮರ','mara','🌳'],['ಹಸು','hasu','🐄'],['ಬೆಕ್ಕು','bekku','🐱'],['ನಾಯಿ','naayi','🐶']]}};
+D.hi.w.push(['केला','','🍌'],['सेब','','🍎'],['अंगूर','','🍇'],['संतरा','','🍊'],['तरबूज','','🍉'],['आँख','','👁️'],['कान','','👂'],['नाक','','👃'],['हाथ','','✋'],['दिल','','❤️'],['बंदर','','🐵'],['हाथी','','🐘'],['शेर','','🦁'],['घोड़ा','','🐴'],['मोर','','🦚'],['तोता','','🦜'],['साँप','','🐍'],['चूहा','','🐭'],['भालू','','🐻'],['बकरी','','🐐'],['मुर्गा','','🐓'],['कार','','🚗'],['रेल','','🚆'],['नाव','','⛵'],['घड़ी','','🕒'],['जूता','','👟'],['टोपी','','🧢'],['छाता','','☂️'],['चाबी','','🔑'],['कुर्सी','','🪑'],['तारा','','⭐'],['बादल','','☁️'],['आग','','🔥'],['पहाड़','','⛰️'],['दूध','','🥛'],['अंडा','','🥚'],['गेंद','','⚽'],['पतंग','','🪁']);
+D.kn.w.push(['ಬಾಳೆಹಣ್ಣು','','🍌'],['ಸೇಬು','','🍎'],['ದ್ರಾಕ್ಷಿ','','🍇'],['ಕಿತ್ತಳೆ','','🍊'],['ಕಲ್ಲಂಗಡಿ','','🍉'],['ಕಣ್ಣು','','👁️'],['ಕಿವಿ','','👂'],['ಮೂಗು','','👃'],['ಕೈ','','✋'],['ಹೃದಯ','','❤️'],['ಕೋತಿ','','🐵'],['ಆನೆ','','🐘'],['ಸಿಂಹ','','🦁'],['ಕುದುರೆ','','🐴'],['ನವಿಲು','','🦚'],['ಗಿಳಿ','','🦜'],['ಹಾವು','','🐍'],['ಇಲಿ','','🐭'],['ಕರಡಿ','','🐻'],['ಆಡು','','🐐'],['ಕೋಳಿ','','🐓'],['ಕಾರು','','🚗'],['ರೈಲು','','🚆'],['ದೋಣಿ','','⛵'],['ಗಡಿಯಾರ','','🕒'],['ಶೂ','','👟'],['ಟೋಪಿ','','🧢'],['ಛತ್ರಿ','','☂️'],['ಕೀಲಿ','','🔑'],['ಕುರ್ಚಿ','','🪑'],['ನಕ್ಷತ್ರ','','⭐'],['ಮೋಡ','','☁️'],['ಬೆಂಕಿ','','🔥'],['ಬೆಟ್ಟ','','⛰️'],['ಹಾಲು','','🥛'],['ಮೊಟ್ಟೆ','','🥚'],['ಚೆಂಡು','','⚽'],['ಗಾಳಿಪಟ','','🪁']);
+const P=(a,b)=>{const e=b.split(' ');return a.split(' ').map((w,i)=>[w,'',e[i]])};
+D.hi.w.push(...P('नल बस फल पैर दाँत जीभ मुँह चाय दाल दही बैग पेन केक फोन बल्ब चम्मच पंखा भूत परी राजा रानी बच्चा बर्फ धूप हवा रात दिन खेत पुल ट्रक झंडा ढोल आलू प्याज टमाटर गाजर तीर ताला बैट नदी समुद्र कछुआ मकड़ी बत्तख कौआ चिड़िया मेंढक खरगोश ऊँट हिरण लोमड़ी भेड़ चश्मा बादाम नमक बाघ मगर चील उल्लू हंस कीड़ा तितली चींटी शंख नींबू घंटी दीया पैसा नोट','🚰 🚌 🍑 🦶 🦷 👅 👄 ☕ 🍲 🥣 🎒 🖊️ 🎂 📱 💡 🥄 🌀 👻 🧚 🤴 👸 👶 ❄️ 🌞 🍃 🌃 🌅 🌾 🌉 🚚 🚩 🥁 🥔 🧅 🍅 🥕 🏹 🔒 🏏 🏞️ 🌊 🐢 🕷️ 🦆 🐦 🐤 🐸 🐰 🐪 🦌 🦊 🐑 👓 🥜 🧂 🐅 🐊 🦅 🦉 🦢 🐛 🦋 🐜 🐚 🍋 🔔 🪔 💰 💵'));
+D.kn.w.push(...P('ಕಲ್ಲು ಮುಖ ಕಾಲು ಹಲ್ಲು ನಾಲಿಗೆ ಬಾಯಿ ಚಹಾ ಬೇಳೆ ಮೊಸರು ಅನ್ನ ಬಸ್ ನಲ್ಲಿ ಹಣ್ಣು ಕೇಕ್ ಫೋನ್ ಬಲ್ಬ್ ಚಮಚ ಫ್ಯಾನ್ ದೆವ್ವ ಪರಿ ರಾಜ ರಾಣಿ ಮಗು ಹಿಮ ಬಿಸಿಲು ಗಾಳಿ ರಾತ್ರಿ ದಿನ ಹೊಲ ಸೇತುವೆ ಲಾರಿ ಧ್ವಜ ಡೋಲು ಆಲೂಗಡ್ಡೆ ಈರುಳ್ಳಿ ಟೊಮೆಟೊ ಕ್ಯಾರೆಟ್ ಬಾಣ ಬೀಗ ಬ್ಯಾಟ್ ನದಿ ಸಮುದ್ರ ಆಮೆ ಜೇಡ ಬಾತುಕೋಳಿ ಕಾಗೆ ಹಕ್ಕಿ ಕಪ್ಪೆ ಮೊಲ ಒಂಟೆ ಜಿಂಕೆ ನರಿ ಕುರಿ ಹುಲಿ ಮೊಸಳೆ ಗೂಬೆ ಹದ್ದು ಹಂಸ ಹುಳು ಇರುವೆ ನಿಂಬೆ ಶಂಖ ಗಂಟೆ ದೀಪ ಹಣ ನೋಟು ಕನ್ನಡಕ','🪨 😀 🦶 🦷 👅 👄 ☕ 🍲 🥣 🍚 🚌 🚰 🍑 🎂 📱 💡 🥄 🌀 👻 🧚 🤴 👸 👶 ❄️ 🌞 🍃 🌃 🌅 🌾 🌉 🚚 🚩 🥁 🥔 🧅 🍅 🥕 🏹 🔒 🏏 🏞️ 🌊 🐢 🕷️ 🦆 🐦 🐤 🐸 🐰 🐪 🦌 🦊 🐑 🐅 🐊 🦉 🦅 🦢 🐛 🐜 🍋 🐚 🔔 🪔 💰 💵 👓'));
+const FM={'ी':'ि','ू':'ु','ई':'इ','ऊ':'उ','ै':'े','ौ':'ो','ख':'क','घ':'ग','छ':'च','झ':'ज','ठ':'ट','ढ':'ड','थ':'त','ध':'द','फ':'प','भ':'ब','श':'स','ष':'स','ण':'न','ं':'','ೀ':'ಿ','ೂ':'ು','ಈ':'ಇ','ಊ':'ಉ','ೇ':'ೆ','ೋ':'ೊ','ಏ':'ಎ','ಓ':'ಒ','ಖ':'ಕ','ಘ':'ಗ','ಛ':'ಚ','ಝ':'ಜ','ಠ':'ಟ','ಢ':'ಡ','ಥ':'ತ','ಧ':'ದ','ಫ':'ಪ','ಭ':'ಬ','ಶ':'ಸ','ಷ':'ಸ','ಣ':'ನ','ಳ':'ಲ','ಂ':''};
+const fold=s=>TH<.8?[...s].map(c=>c in FM?FM[c]:c).join(''):s;
+function aks(w){let n=0,v=false;for(const ch of w){const c=ch.codePointAt(0);const b=(c>=0x904&&c<=0x939)||(c>=0x958&&c<=0x961)||(c>=0xC85&&c<=0xCB9)||c===0xCDE;if(b&&!v)n++;v=(c===0x94D||c===0xCCD)}return n}
+const $=id=>document.getElementById(id),cv=$('cv'),ctx=cv.getContext('2d');
+const R=window.SpeechRecognition||window.webkitSpeechRecognition;
+let S={};try{S=JSON.parse(localStorage.getItem('rd1'))||{}}catch(e){}
+S.st=S.st||{};S.my=S.my||{hi:[],kn:[]};S.best=S.best||0;
+let SB=null,SS=null;try{SB=JSON.parse(localStorage.getItem('rd_sb'));SS=JSON.parse(localStorage.getItem('rd_ss'))}catch(e){}
+let DBR=null,pt0=0;function push(){clearTimeout(pt0);pt0=setTimeout(()=>{if(DBR)DBR.set({json:JSON.stringify(S)}).catch(()=>{});if(window.sbPush)sbPush()},1500)}
+const save=()=>{S.ts=Date.now();try{localStorage.setItem('rd1',JSON.stringify(S))}catch(e){}push()};
+let L='hi',LV=1,tap=!R,state='menu',W=0,H=0,gy=0,sz=0,hx=0,sc=0,hero={h:0,vy:0,air:false},ob=null,score=0,lives=1,speed=100,spawnT=1,parts=[],shake=0,last=0,prev=null,inv=0,rec=null,recOn=false,AC=null,missed=null,heard='',TH=.7;
+const stars=Array.from({length:40},()=>[Math.random(),Math.random()*.5,Math.random()*1.5+.5]);
+function resize(){const d=Math.min(window.devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);gy=H*.8;sz=Math.min(H*.12,W*.11);hx=W*.2}
+addEventListener('resize',resize);
+function beep(f,d,ty){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=ty||'square';o.frequency.value=f;g.gain.value=.06;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+const list=()=>{const a=[];if(S.bi!==false)a.push(...D[L].w);(S.secs||[]).forEach(s=>{if(s.lang===L&&s.on)a.push(...s.words)});(CS||[]).forEach(s=>{if(s.lang===L&&cOn(s))a.push(...s.words)});return a.length?a:D[L].w};
+const st=w=>S.st[L+':'+w[0]]=S.st[L+':'+w[0]]||{ok:0,bad:0};
+function pick(){if(poemMode&&PH.length){const w=[PH[pgi%PH.length],'','📜'];pgi++;return w}const lv=Math.min(6,2+Math.floor(score/60));let a=list().filter(w=>aks(w[0])<=lv);if(a.length<4)a=list();const ws=a.map(w=>{if(w===prev&&a.length>1)return 0;const t=st(w);return 1+2*t.bad/(1+t.ok)});let r=Math.random()*ws.reduce((x,y)=>x+y,0);for(let i=0;i<a.length;i++){r-=ws[i];if(r<=0)return a[i]}return a[0]}
+function norm(s){return(s||'').toLowerCase().normalize('NFC').replace(/ँ/g,'ं').replace(/[़\s.,!?।'’"-]/g,'')}
+function sim(a,b){if(!a||!b)return 0;const m=a.length,n=b.length,d=[];for(let i=0;i<=m;i++){d[i]=[i];for(let j=1;j<=n;j++)d[i][j]=i?0:j}
+for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return 1-d[m][n]/Math.max(m,n)}
+const M='kkggnccjjnttddnttddnnppbbmyrrlllvsssh',KC={};
+function skel(s){s=norm(s);if(/[a-z]/i.test(s))return s.toLowerCase().replace(/([kgcjtdpbs])h/g,'$1').replace(/ng/g,'n').replace(/w/g,'v').replace(/z/g,'j').replace(/f/g,'p').replace(/[qx]/g,'k').replace(/[aeiouh]/g,'').replace(/(.)\1+/g,'$1');let o='';for(const ch of s){const c=ch.codePointAt(0);o+=c>=0x915&&c<=0x939?M[c-0x915]:c>=0xC95&&c<=0xCB9?M[c-0xC95]:c>=0x958&&c<=0x95F?'kkgjddpy'[c-0x958]:''}return o.replace(/(.)\1+/g,'$1')}
+const kf=w=>KC[w]||(KC[w]=[skel(w),fold(norm(w))]);
+function smart(alts,w){const L0=list(),kt=kf(w[0]),T=[];alts.forEach(x=>{T.push(x);x.split(/\s+/).forEach(t=>t&&T.push(t))});return T.some(y=>{const ys=skel(y),yf=fold(norm(y)),f=k=>.6*sim(ys,k[0])+.4*sim(yf,k[1]),t=f(kt);if(t<.55||(kt[0].length<=2&&sim(yf,kt[1])<.6))return false;return L0.every(v=>v[0]===w[0]||f(kf(v[0]))<=t)})}
+function judge(alts,w){if(poemMode)return pj(alts,w[0]);const a=fold(norm(w[0]));let best=0;alts.forEach(x=>{const n=fold(norm(x));if(a.length>1&&n.includes(a))best=1;[x,...x.split(/\s+/)].forEach(y=>{best=Math.max(best,sim(fold(norm(y)),a))})});return best>=TH||(TH<.8&&smart(alts,w))}
+function mk(){rec=new R();rec.lang=poemMode?'hi-IN':D[L].c;rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=10;
+rec.onresult=e=>{if(state!=='play'||!ob||ob.ok)return;const r=e.results[e.results.length-1],a=[...r].map(x=>x.transcript);heard=a[0];$('hd').textContent='Heard: '+a[0];if(judge(a,ob.w)){ob.ok=true;$('wb').classList.add('ok');beep(660,.08)}};
+rec.onstart=()=>{$('hm').textContent='🎤 listening...'};
+rec.onerror=e=>{const c=e.error;if(c==='not-allowed'||c==='service-not-allowed'||c==='audio-capture'||c==='language-not-supported'){micFail(c)}else if(c==='network')$('hm').textContent='⚠ needs internet'};
+rec.onend=()=>{if(recOn&&state==='play')setTimeout(()=>{if(recOn&&state==='play'){try{mk()}catch(x){}}},30)};
+try{rec.start()}catch(x){}}
+function startRec(){if(!R||recOn)return;recOn=true;mk()}
+function stopRec(){recOn=false;try{rec&&rec.abort()}catch(e){}}
+function showWord(w){$('wb').style.display='block';$('wb').className=poemMode?'lg':'';$('wt').textContent=w[0];$('wt').lang=poemMode?'hi':L;$('ws').textContent=poemMode?'📜 '+pgi+'/'+PH.length:(w[2]||'')}
+function spawn(){const w=pick();prev=w;heard='';$('hd').textContent='';ob={x:W+sz,w,e:Math.random()*3|0,c:['#e63946','#2ec4b6','#ffb703','#8338ec'][Math.random()*4|0],ok:false,hit:false};showWord(w)}
+function jump(){if(hero.air)return;hero.air=true;hero.vy=H*3.4*.4;beep(520,.12)}
+function boom(x,y,c,n,tx){for(let i=0;i<n;i++)parts.push({x,y,vx:(Math.random()-.5)*W*.5,vy:-Math.random()*H*.7,l:.8,c});if(tx)parts.push({x,y,vx:0,vy:-H*.25,l:1,tx,c:'#fff'})}
+function updHud(){$('hl').textContent='❤️'.repeat(Math.max(0,lives));$('hs').textContent='⭐ '+score;$('hm').textContent='🎤 read aloud'}
+function done(){st(ob.w).ok++;score+=10;speed=Math.min(W*(poemMode?.19:.34),speed+W*(poemMode?.005:.008));boom(hx,gy-sz*1.5,'#ffd54a',14,'+10');beep(880,.15,'triangle');updHud()}
+function crash(){st(ob.w).bad++;lives--;shake=.5;boom(hx,gy-sz,'#ff4d4d',22);beep(110,.4,'sawtooth');updHud();if(lives<=0){over(ob.w);return}inv=1;$('wb').style.display='none';ob=null;spawnT=1}
+function over(w){state='over';stopRec();missed=w;$('wb').style.display='none';S.best=Math.max(S.best,score);save();$('ow').textContent=w[0];$('ow').lang=poemMode?'hi':L;$('ow').style.fontSize=poemMode?'30px':'';if(poemMode)pgi=Math.max(0,pgi-1);$('om').textContent=w[2]||'';$('oh').textContent=heard?'Phone heard: '+heard:'Phone heard no voice';$('os').textContent='Score: '+score+'   Best: '+S.best;$('over').style.display='flex'}
+function update(dt){
+shake=Math.max(0,shake-dt*2);inv=Math.max(0,inv-dt);
+parts.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=H*1.2*dt;p.l-=dt});parts=parts.filter(p=>p.l>0);
+sc+=(state==='play'?speed:50)*dt;
+if(state!=='play')return;
+if(hero.air){hero.vy-=H*3.4*dt;hero.h+=hero.vy*dt;if(hero.h<=0){hero.h=0;hero.vy=0;hero.air=false}}
+if(!ob){spawnT-=dt;if(spawnT<=0)spawn();return}
+ob.x-=speed*dt;
+if(ob.ok&&!hero.air&&ob.x-hx<speed*.4)jump();
+if(inv<=0&&Math.abs(ob.x-hx)<sz*.5&&hero.h<sz*.8){crash();return}
+if(ob.x<hx-sz){done();ob=null;spawnT=.5;$('wb').style.display='none'}}
+function rr(x,y,w,h,r){ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,r);else ctx.rect(x,y,w,h);ctx.fill()}
+function ridge(off,base,amp,col,k){ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,H);for(let x=0;x<=W+20;x+=20){ctx.lineTo(x,base-amp*(.5+.5*Math.sin((x+off)*k)*Math.cos((x+off)*k*.37)))}ctx.lineTo(W+20,H);ctx.fill()}
+function drawHero(){const s=sz,t=sc/38;ctx.save();ctx.translate(hx,gy-hero.h);ctx.rotate(hero.air?-.12:0);const sw=hero.air?.9:Math.sin(t)*.9;
+for(const k of[1,-1]){const a=sw*k,fx=Math.sin(a)*s*.38;ctx.strokeStyle='#2b4fa3';ctx.lineWidth=s*.17;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(0,-s*.42);ctx.lineTo(fx,-s*.08);ctx.stroke();ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(fx+s*.07,-s*.05,s*.14,s*.07,0,0,7);ctx.fill()}
+ctx.fillStyle='#ff9f1c';rr(-s*.5,-s*.95,s*.3,s*.42,s*.08);ctx.fillStyle='#e63946';rr(-s*.3,-s,s*.6,s*.62,s*.16);
+ctx.strokeStyle='#e63946';ctx.lineWidth=s*.14;for(const k of[1,-1]){const a=-sw*k;ctx.beginPath();ctx.moveTo(0,-s*.88);ctx.lineTo(Math.sin(a)*s*.4+s*.1,-s*.62);ctx.stroke()}
+ctx.fillStyle='#f1c27d';ctx.beginPath();ctx.arc(s*.04,-s*1.2,s*.27,0,7);ctx.fill();ctx.fillStyle='#2ec4b6';ctx.beginPath();ctx.arc(s*.04,-s*1.25,s*.28,Math.PI,0);ctx.fill();ctx.fillRect(-s*.45,-s*1.27,s*.25,s*.07);ctx.fillStyle='#111';ctx.beginPath();ctx.arc(s*.18,-s*1.2,s*.04,0,7);ctx.fill();ctx.restore()}
+function drawHeroOld(){const s=sz,t=sc/40;ctx.save();ctx.translate(hx,gy-hero.h);
+const sw=hero.air?.6:Math.sin(t)*.9;ctx.strokeStyle='#ffd54a';ctx.lineWidth=s*.14;ctx.lineCap='round';
+for(const k of[-1,1]){ctx.beginPath();ctx.moveTo(k*s*.1,-s*.3);ctx.lineTo(k*s*.1+Math.sin(sw*k)*s*.3,-s*.02);ctx.stroke()}
+ctx.fillStyle='#4cc9f0';rr(-s*.28,-s*.8,s*.56,s*.55,s*.14);
+ctx.fillStyle='#ffe0b8';ctx.beginPath();ctx.arc(0,-s,s*.3,0,7);ctx.fill();
+ctx.fillStyle='#ff3b3b';ctx.fillRect(-s*.3,-s*1.12,s*.6,s*.1);
+ctx.strokeStyle='#ff3b3b';ctx.lineWidth=s*.07;ctx.beginPath();ctx.moveTo(-s*.3,-s*1.07);ctx.quadraticCurveTo(-s*.6,-s*(1.15+.1*Math.sin(t*2)),-s*.85,-s*(1+.15*Math.sin(t*2+1)));ctx.stroke();
+ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s*.1,-s*.98,s*.09,0,7);ctx.fill();ctx.fillStyle='#111';ctx.beginPath();ctx.arc(s*.13,-s*.98,s*.045,0,7);ctx.fill();
+ctx.restore()}
+function drawOb(o){const s=sz;ctx.save();ctx.translate(o.x,gy);if(o.ok){ctx.shadowColor='#2ee59d';ctx.shadowBlur=24}
+if(o.e===0){ctx.fillStyle='#444';ctx.fillRect(-s*.4,-s*.7,s*.1,s*.7);ctx.fillRect(s*.3,-s*.7,s*.1,s*.7);ctx.fillStyle='#fff';ctx.fillRect(-s*.5,-s*.7,s,s*.28);ctx.fillStyle='#ff6b1a';for(let i=0;i<5;i++){const x=-s*.5+i*s*.2;ctx.beginPath();ctx.moveTo(x+s*.1,-s*.7);ctx.lineTo(x+s*.2,-s*.7);ctx.lineTo(x+s*.1,-s*.42);ctx.lineTo(x,-s*.42);ctx.fill()}}
+else if(o.e===1){ctx.fillStyle=o.c;rr(-s*.5,-s*.72,s,s*.62,s*.1);ctx.fillStyle='#cfe8ff';rr(-s*.38,-s*.62,s*.34,s*.26,s*.05);rr(s*.04,-s*.62,s*.34,s*.26,s*.05);ctx.fillStyle='#fff';ctx.fillRect(-s*.5,-s*.2,s,s*.05);ctx.fillStyle='#222';for(const k of[-.28,.28]){ctx.beginPath();ctx.arc(k*s,-s*.07,s*.08,0,7);ctx.fill()}}
+else{ctx.fillStyle='#2e9e5b';rr(-s*.42,-s*.62,s*.84,s*.6,s*.06);ctx.fillStyle='#1f7a43';rr(-s*.48,-s*.72,s*.96,s*.14,s*.05);ctx.fillStyle='#fff';ctx.fillRect(-s*.1,-s*.5,s*.2,s*.3)}
+ctx.restore()}
+function draw(){ctx.save();if(shake>0)ctx.translate((Math.random()-.5)*shake*16,(Math.random()-.5)*shake*16);
+const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#2f8bff');g.addColorStop(.6,'#8fd3ff');g.addColorStop(1,'#ffd9a0');ctx.fillStyle=g;ctx.fillRect(-20,-20,W+40,H+40);
+ctx.fillStyle='#ffffffd0';stars.slice(0,6).forEach((s,i)=>{const P=W+160,x=(((s[0]*P-sc*.04*(1+i%3*.5))%P)+P)%P-80;ctx.beginPath();ctx.ellipse(x,s[1]*H*.5+14,30+s[2]*16,10+s[2]*4,0,0,7);ctx.fill()});
+const wy=gy-H*.3;for(let i=-1;i<W/64+2;i++){const o=i*64-((sc*.12)%64),k=Math.floor(sc*.12/64)+i,r=Math.abs(Math.sin(k*12.9898)*43758.5453)%1,hh=H*(.12+.22*r);ctx.fillStyle='#6f86c9';ctx.fillRect(o,wy-hh,60,hh+4);ctx.fillStyle='#ffe9a8';for(let j=0;j<hh/22-1;j++){ctx.fillRect(o+10,wy-hh+10+j*22,9,9);ctx.fillRect(o+38,wy-hh+10+j*22,9,9)}}
+ctx.fillStyle='#b4533d';ctx.fillRect(-20,wy,W+40,gy-wy);ctx.strokeStyle='#8c3d2c';ctx.lineWidth=2;for(let y=wy;y<gy;y+=H*.04){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+const cl=['#ffd54a','#2ee59d','#ff4d8d','#4cc9f0'];for(let i=-1;i<W/180+2;i++){const o=i*180-((sc*.5)%180),k=Math.floor(sc*.5/180)+i;ctx.strokeStyle=cl[((k%4)+4)%4];ctx.lineWidth=H*.03;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(o+20,wy+H*.18);ctx.bezierCurveTo(o+50,wy+H*.02,o+90,wy+H*.26,o+120,wy+H*.08);ctx.stroke()}
+ctx.fillStyle='#5b5b6b';ctx.fillRect(-20,gy,W+40,H-gy+20);ctx.fillStyle='#ffd23f';ctx.fillRect(-20,gy,W+40,H*.012);
+ctx.fillStyle='#6b4a32';for(let x=-(sc%48);x<W;x+=48)ctx.fillRect(x,gy+H*.05,30,H*.05);ctx.fillStyle='#d8dce6';ctx.fillRect(-20,gy+H*.045,W+40,H*.014);
+if(ob)drawOb(ob);
+if(!(inv>0&&Math.floor(inv*10)%2))drawHero();
+parts.forEach(p=>{if(p.tx){ctx.fillStyle=p.c;ctx.font='800 '+(sz*.7)+'px sans-serif';ctx.textAlign='center';ctx.fillText(p.tx,p.x,p.y)}else{ctx.globalAlpha=Math.max(0,p.l);ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,6,6);ctx.globalAlpha=1}});
+ctx.restore()}
+function loop(ts){const dt=Math.min((ts-last)/1000||0,.05);last=ts;update(dt);draw();requestAnimationFrame(loop)}
+function micFail(c){stopRec();state='menu';$('hud').style.display='none';$('wb').style.display='none';$('over').style.display='none';$('menu').style.display='flex';$('mm').textContent=(c==='audio-capture'?'No microphone was found on this phone.':c==='language-not-supported'?'This phone cannot listen in this language yet. Add the language in Google speech settings.':'Microphone is blocked here. Open this link in Chrome (not inside the Claude app or a preview) and tap Allow.')+' ('+c+')'}
+function start(){if(!R){$('mm').textContent='This browser cannot listen to speech. Open the link in Chrome on Android.';return}
+const go=()=>{$('mm').textContent='';$('menu').style.display='none';$('over').style.display='none';resize();hero={h:0,vy:0,air:false};ob=null;parts=[];score=0;lives=LV;speed=W*(poemMode?.13:.22);spawnT=1.2;sc=0;prev=null;inv=0;state='play';updHud();$('hud').style.display='flex';beep(440,.1);setTimeout(startRec,300)};
+if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)navigator.mediaDevices.getUserMedia({audio:true}).then(s=>{s.getTracks().forEach(t=>t.stop());go()}).catch(()=>micFail('not-allowed'));else go()}
+$('go').onclick=()=>{poemMode=false;start()};$('again').onclick=start;
+$('home').onclick=()=>{$('over').style.display='none';$('menu').style.display='flex';$('best').textContent='Best: '+S.best;state='menu'};
+
+$('lis').onclick=()=>{if(!missed||!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(missed[0]);u.lang=poemMode?'hi-IN':D[L].c;u.rate=.75;speechSynthesis.speak(u)};
+const fill=()=>{$('mine').value=(S.my[L]||[]).map(w=>w[0]+' | '+w[2]).join('\n')};
+document.querySelectorAll('#lg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#lg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');L=b.dataset.l;fill()});
+document.querySelectorAll('#lv button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#lv button').forEach(x=>x.classList.remove('on'));b.classList.add('on');LV=+b.dataset.v});
+document.querySelectorAll('#sg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#sg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');TH=+b.dataset.t});
+$('sv').onclick=()=>{S.my[L]=$('mine').value.split(/[\n,]+/).map(l=>l.split('|').map(x=>x.trim())).filter(p=>p[0]).map(p=>[p[0],'',p[1]||'📘']);save();$('sv').textContent='Saved '+S.my[L].length+' words ✓'};
+if(!R){$('mm').textContent='This browser cannot listen to speech. Open the link in Chrome on Android.';$('go').disabled=true}$('lv').children[1].textContent='Easy x5 ❤️';
+let PH=[],pi=0,ps=0,prec=null,pdone=false,pbk=[],pf=0,poemMode=false,pgi=0;
+const phr=t=>t.split(/\n+/).flatMap(l=>l.split(/(?<=[,!?।.;])\s*/)).map(s=>s.replace(/[,।.;!?]+$/,'').trim()).filter(s=>s.length>1);
+const ptk=s=>s.split(/[\s-]+/).filter(Boolean);
+function pTxt(){const k=ptk(PH[pi]);let j=0;return k.map((w,i)=>{if(i%2===0)return w;return j++<pf?w:'____'}).join(' ')}
+function pTap(b,w){if(w===pbk[pf]){b.remove();pf++;beep(660,.08);$('pt').textContent=pTxt();$('phd').textContent='';if(pf>=pbk.length)pOK()}else{$('phd').textContent='Not this one. Try another word.';beep(150,.15,'sawtooth')}}
+function pShow(){const p=PH[pi],k=ptk(p);$('pchips').innerHTML='';$('ppos').textContent='Phrase '+(pi+1)+' of '+PH.length;$('pbar').firstChild.style.width=(pi/PH.length*100)+'%';$('pstep').textContent=['Step 1: Read it aloud','Step 2: Tap the missing words','Step 3: Say it from memory'][ps];$('pt').className='';$('pt').lang='hi';$('phd').textContent='';
+if(ps===1){pbk=k.filter((w,i)=>i%2);pf=0;if(!pbk.length){ps=2;pShow();return}const pool=[...new Set(PH.join(' ').split(/[\s-]+/).filter(w=>w&&!k.includes(w)))].sort(()=>Math.random()-.5).slice(0,2);[...pbk,...pool].sort(()=>Math.random()-.5).forEach(w=>{const b=document.createElement('button');b.textContent=w;b.onclick=()=>pTap(b,w);$('pchips').appendChild(b)});$('pt').textContent=pTxt()}
+else $('pt').textContent=ps===0?p:k[0]+' ...'}
+function pShowOld(){const p=PH[pi],k=ptk(p);$('ppos').textContent='Phrase '+(pi+1)+' of '+PH.length;$('pbar').firstChild.style.width=(pi/PH.length*100)+'%';$('pstep').textContent=['Step 1: Read it aloud','Step 2: Fill the missing words','Step 3: Say it from memory'][ps];$('pt').className='';$('pt').lang='hi';$('pt').textContent=ps===0?p:ps===1?k.map((w,i)=>i%2?'____':w).join(' '):k[0]+' ...';$('phd').textContent=''}
+function pAdv(){ps++;if(ps>2){ps=0;pi++}if(pi>=PH.length){pDone();return}S.pi=pi;save();pShow()}
+function pDone(){pdone=true;pi=0;ps=0;S.pi=0;save();$('pbar').firstChild.style.width='100%';$('ppos').textContent='';$('pstep').textContent='🎉 You learned the whole poem!';$('pt').className='ok';$('pt').textContent='Well done!';$('phd').textContent='Tap any button to practise again.'}
+function pOK(){$('pchips').innerHTML='';$('pt').className='ok';$('pt').textContent=PH[pi];$('phd').textContent='✓ Great!';beep(880,.15,'triangle');setTimeout(pAdv,1100)}
+function pJudge(a){return pj(a,PH[pi])}
+function pj(a,p){const T=ptk(p).map(w=>fold(norm(w))),need=TH>.8?T.length:Math.max(1,T.length-(T.length>=4?1:0));return a.some(x=>{const A=ptk(x).map(w=>fold(norm(w))),j=fold(norm(x));return T.filter(t=>(t.length>1&&j.includes(t))||A.some(y=>sim(y,t)>=.7||(TH<.8&&t.length>1&&sim(skel(y),skel(t))>=.9))).length>=need})}
+function pListen(){if(pdone){pdone=false;pShow();return}if(!R){$('phd').textContent='This browser cannot listen. Open the link in Chrome.';return}
+if(prec){try{prec.abort()}catch(e){}return}
+prec=new R();prec.lang='hi-IN';prec.interimResults=true;prec.maxAlternatives=5;prec.continuous=false;
+prec.onstart=()=>{$('pmic').textContent='👂 Listening...'};
+prec.onresult=e=>{const r=e.results[e.results.length-1],a=[...r].map(x=>x.transcript);$('phd').textContent='Heard: '+a[0];if(pJudge(a)){try{prec.abort()}catch(x){}pOK()}};
+prec.onerror=e=>{$('phd').textContent=e.error==='not-allowed'||e.error==='service-not-allowed'?'Microphone is blocked. Open this link in Chrome and tap Allow.':'Try again ('+e.error+')'};
+prec.onend=()=>{$('pmic').textContent='🎤 Say it';prec=null};
+try{prec.start()}catch(e){prec=null}}
+function pHear(){if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(PH[pi]);u.lang='hi-IN';u.rate=.7;speechSynthesis.speak(u)}
+function pSet(){try{prec&&prec.abort()}catch(e){}$('pset').style.display='block';$('pplay').style.display='none';$('ptx').value=S.poem||'';pList();$('pcnt').textContent=phr($('ptx').value).length+' phrases found'}
+$('prun').onclick=()=>{PH=phr(S.poem||((CP||[])[0]||{}).body||'');if(PH.length<2){$('mm').textContent='First paste the poem in Poem practice.';return}poemMode=true;pgi=0;start()};
+$('pm').onclick=()=>{$('menu').style.display='none';$('poem').style.display='flex';pSet()};
+$('pback0').onclick=$('pedit').onclick=()=>{try{prec&&prec.abort()}catch(e){}if($('pplay').style.display==='block'&&this!==0){pSet();return}$('poem').style.display='none';$('menu').style.display='flex'};
+$('ptx').oninput=()=>{$('pcnt').textContent=phr($('ptx').value).length+' phrases found'};
+$('pstart').onclick=()=>{const t=$('ptx').value.trim();PH=phr(t);if(PH.length<2){$('pcnt').textContent='Please paste the poem first.';return}const same=S.poem===t;S.poem=t;pi=same&&S.pi<PH.length?(S.pi||0):0;ps=0;pdone=false;save();$('pset').style.display='none';$('pplay').style.display='block';pShow()};
+$('phear').onclick=()=>{if(pdone){pdone=false;pShow();return}pHear()};$('pmic').onclick=pListen;
+$('ppeek').onclick=()=>{if(pdone){pdone=false;pShow();return}$('pt').textContent=PH[pi];pHear()};
+$('pskip').onclick=()=>{if(pdone){pdone=false;pShow();return}pAdv()};
+$('pprev').onclick=()=>{pdone=false;ps=0;if(pi>0)pi--;pShow()};
+let wc=null,wst=0,wtry=0;
+function wRender(){$('we').textContent=wc[2]||'';$('ww').textContent=wst===0?wc[0]:'';$('ww').lang=L;$('win').lang=L;$('win').value='';$('wf').textContent='';$('wstep').textContent='Look at the picture, listen, then write the word';$('win').focus()}
+function wNext(){wc=pick();wst=1;wtry=0;wRender()}
+function wCheck(){const v=norm($('win').value),t=norm(wc[0]);if(!v)return;
+if(v===t){st(wc).ok++;save();beep(880,.15,'triangle');$('wf').style.color='#1fb36b';$('wf').textContent='✓ Correct!';setTimeout(()=>{score+=10;wNext()},900)}
+else{st(wc).bad++;wtry++;beep(150,.15,'sawtooth');$('wf').style.color='#e5484d';$('wf').textContent=sim(v,t)>=.7?'Almost! Check the letters.':'Not yet. Try again.';if(wtry>=3)$('ww').textContent=wc[0]}}
+$('wm').onclick=()=>{$('menu').style.display='none';$('wr').style.display='flex';poemMode=false;score=0;wNext()};
+$('wback').onclick=()=>{$('wr').style.display='none';$('menu').style.display='flex'};
+$('wchk').onclick=wCheck;$('wskip').onclick=wNext;$('wpk').onclick=()=>{if(wtry>=2)$('ww').textContent=wc[0];else{$('wf').style.color='#e5484d';$('wf').textContent='Try first, you can do it!'}};
+$('win').onkeydown=e=>{if(e.key==='Enter')wCheck()};
+$('wh').onclick=()=>{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(wc[0]);u.lang=D[L].c;u.rate=.75;speechSynthesis.speak(u)};
+S.secs=S.secs||[];['hi','kn'].forEach(l=>{if((S.my[l]||[]).length&&!S.secs.some(s=>s.id==='my'+l))S.secs.push({id:'my'+l,name:'My words',lang:l,words:S.my[l],on:true})});
+function act(){const n=(S.bi!==false?['Starter']:[]).concat(S.secs.filter(s=>s.lang===L&&s.on).map(s=>s.name)).concat((CS||[]).filter(s=>s.lang===L&&cOn(s)).map(s=>s.name));$('act').textContent='Playing: '+(n.join(' + ')||'Starter')+' ('+list().length+' words)'}
+function parseW(t){const o=[];t.split(/\n+/).forEach(l=>{const p=l.split(/[|,\t]/).map(x=>x.trim()).filter(Boolean);for(let i=0;i<p.length;i++){const w0=p[i];let e='📘';if(p[i+1]&&!/[\u0900-\u0DFFA-Za-z0-9]/.test(p[i+1])){e=p[i+1];i++}o.push([w0,'',e])}});return o}
+const sv2=()=>{save();act()};
+function sRender(){const el=$('slist');el.innerHTML='';$('slang').textContent=L==='hi'?'Hindi':'Kannada';const row=(label,on,cb,del)=>{const d=document.createElement('div');d.className='srow';const c=document.createElement('input');c.type='checkbox';c.checked=on;c.onchange=()=>cb(c.checked);const s=document.createElement('span');s.textContent=label;d.append(c,s);if(del){const b=document.createElement('button');b.textContent='🗑';b.onclick=()=>{if(b.dataset.s)del();else{b.dataset.s=1;b.textContent='Tap again to delete'}};d.append(b)}el.append(d)};
+row('⭐ Starter words ('+D[L].w.length+')',S.bi!==false,v=>{S.bi=v;sv2()});
+S.secs.filter(s=>s.lang===L).forEach(s=>row(s.name+' ('+s.words.length+')',s.on,v=>{s.on=v;sv2()},()=>{S.secs=S.secs.filter(x=>x!==s);sv2();sRender()}));
+(CS||[]).filter(s=>s.lang===L).forEach(s=>row('☁️ '+s.name+' ('+s.words.length+')',cOn(s),v=>{S.cOn=S.cOn||{};S.cOn[s.id]=v;sv2()}))}
+$('sm').onclick=()=>{$('menu').style.display='none';$('sx').style.display='flex';$('smsg').textContent='';sRender()};
+$('sback').onclick=()=>{$('sx').style.display='none';$('menu').style.display='flex';act()};
+$('ssave').onclick=()=>{const w=parseW($('sbody').value);if(!w.length){$('smsg').textContent='Add some words first.';return}S.secs.push({id:'s'+Date.now(),name:$('sname').value.trim()||'Section '+(S.secs.length+1),lang:L,words:w,on:true});$('sbody').value='';$('sname').value='';$('smsg').textContent='Saved '+w.length+' words ✓';sv2();sRender()};
+$('sfile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('sbody').value=($('sbody').value+'\n'+r.result).trim();if(!$('sname').value)$('sname').value=f.name.replace(/\.[^.]+$/,'')};r.readAsText(f)};
+document.querySelectorAll('#lg button').forEach(b=>b.addEventListener('click',act));
+act();
+(async()=>{try{if(!window.claude)throw 0;const db=await claude.use('db'),u=await claude.use('user');if(!db||!u)throw 0;const id=await u.id();if(!id)throw 0;const ref=db.doc('data/users/'+id+'/app'),sn=await ref.get(),dd=sn.exists&&sn.data()&&sn.data().json?JSON.parse(sn.data().json):null;
+if(dd&&(dd.ts||0)>(S.ts||0)){S=dd;S.st=S.st||{};S.my=S.my||{hi:[],kn:[]};S.secs=S.secs||[];S.best=S.best||0;try{localStorage.setItem('rd1',JSON.stringify(S))}catch(e){}}
+DBR=ref;if(!dd||(S.ts||0)>(dd.ts||0))push();$('sync').textContent=' ☁️ Synced to your Claude account';$('best').textContent='Best: '+S.best;fill();act()}catch(e){if(!SS&&!CLOUD.url)$('sync').textContent=' 📱 Saved on this device. Use Word sections to back up or share.'}})();
+async function enc(o){const b=new TextEncoder().encode(JSON.stringify(o));let u=b,p='r';if(window.CompressionStream){u=new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer());p='z'}let s='';u.forEach(x=>s+=String.fromCharCode(x));return p+btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+async function dec(t){const p=t[0],s=atob(t.slice(1).replace(/-/g,'+').replace(/_/g,'/'));let u=Uint8Array.from(s,c=>c.charCodeAt(0));if(p==='z')u=new Uint8Array(await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());return JSON.parse(new TextDecoder().decode(u))}
+function imp(o){let n=0;(o.secs||[]).forEach(s=>{if(!S.secs.some(x=>x.id===s.id)){S.secs.push(s);n++}});if(o.poem)S.poem=o.poem;if(o.bi===false)S.bi=false;Object.keys(o.st||{}).forEach(k=>{const a=S.st[k]||{ok:0,bad:0},b=o.st[k];S.st[k]={ok:Math.max(a.ok,b.ok),bad:Math.max(a.bad,b.bad)}});S.best=Math.max(S.best||0,o.best||0);sv2();return n}
+$('bdl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='word-runner-backup.json';document.body.appendChild(a);a.click();a.remove();$('smsg').textContent='Backup file downloaded. Send it to your other device and tap Restore there.'};
+$('rfile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const n=imp(JSON.parse(r.result));sRender();$('smsg').textContent='Restored. '+n+' new sections added.'}catch(x){$('smsg').textContent='That file could not be read.'}};r.readAsText(f)};
+$('blink').onclick=async()=>{const t=await enc({secs:S.secs,poem:S.poem,bi:S.bi}),u=location.href.split('#')[0]+'#d='+t;$('slink').style.display='block';$('slink').value=u;let ok=false;try{await navigator.clipboard.writeText(u);ok=true}catch(x){}$('smsg').textContent=ok?'Link copied. Open it on any device to import your sections and poem.':'Copy the link below and open it on the other device.'};
+if(location.hash.startsWith('#d=')){dec(location.hash.slice(3)).then(o=>{$('menu').style.display='none';$('sx').style.display='flex';sRender();$('smsg').textContent='Shared set found: '+(o.secs||[]).length+' sections'+(o.poem?' and a poem':'')+'.';const b=$('simp');b.style.display='block';b.onclick=()=>{const n=imp(o);history.replaceState(null,'',location.pathname+location.search);b.style.display='none';sRender();$('smsg').textContent='Imported '+n+' new sections.'}}).catch(()=>{})}
+const sbSave=()=>{try{localStorage.setItem('rd_sb',JSON.stringify(SB));localStorage.setItem('rd_ss',JSON.stringify(SS))}catch(e){}};
+async function sbTok(){if(!SS)return null;if(SS.exp-60>Date.now()/1000)return SS.at;const r=await fetch(SB.u+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SB.k,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:SS.rt})});const j=await r.json();if(!r.ok){SS=null;sbSave();return null}SS={at:j.access_token,rt:j.refresh_token,exp:Date.now()/1000+(j.expires_in||3600),uid:SS.uid};sbSave();return SS.at}
+async function sbq(path,o){o=o||{};const t=await sbTok();if(!t)throw new Error('Signed out');return fetch(SB.u+'/rest/v1/'+path,Object.assign({},o,{headers:Object.assign({apikey:SB.k,Authorization:'Bearer '+t,'Content-Type':'application/json'},o.headers||{})}))}
+async function sbPush(){if(!SS||!SB)return;try{const r=await sbq('app_data?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({user_id:SS.uid,data:S,updated_at:new Date().toISOString()})});if(!r.ok)throw new Error('error '+r.status)}catch(x){$('sync').textContent=' ⚠ Sync problem: '+x.message}}
+async function sbPull(){if(!SS||!SB)return;try{const r=await sbq('app_data?select=data&limit=1');if(!r.ok)throw new Error('error '+r.status);const a=await r.json(),d=a[0]&&a[0].data;
+if(d&&(d.ts||0)>(S.ts||0)){S=d;S.st=S.st||{};S.my=S.my||{hi:[],kn:[]};S.secs=S.secs||[];S.best=S.best||0;try{localStorage.setItem('rd1',JSON.stringify(S))}catch(e){}act();fill();$('best').textContent='Best: '+S.best;if($('sx').style.display==='flex')sRender()}
+else if(!d||(S.ts||0)>(d.ts||0))await sbPush();
+$('sync').textContent=' ☁️ Synced '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});$('cmsg').textContent='Synced ✓'}catch(x){$('sync').textContent=' ⚠ Sync problem: '+x.message;$('cmsg').textContent='Sync problem: '+x.message}}
+async function sbLogin(){const u=$('cu').value.trim().replace(/\/+$/,''),k=$('ck').value.trim(),e=$('ce').value.trim(),p=$('cp').value;if(!u||!k||!e||!p){$('cmsg').textContent='Fill all four boxes.';return}
+try{const r=await fetch(u+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:k,'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});const j=await r.json();if(!r.ok)throw new Error(j.error_description||j.msg||j.message||'wrong details');SB={u,k,e};SS={at:j.access_token,rt:j.refresh_token,exp:Date.now()/1000+(j.expires_in||3600),uid:j.user.id};sbSave();$('cp').value='';$('cmsg').textContent='Signed in ✓ syncing...';await sbPull()}catch(x){$('cmsg').textContent='Could not sign in: '+x.message}}
+$('cm').onclick=()=>{$('menu').style.display='none';$('cx').style.display='flex';$('cu').value=SB?SB.u:'';$('ck').value=SB?SB.k:'';$('ce').value=SB&&SB.e?SB.e:'';$('cmsg').textContent=SS?'Signed in.':'Not signed in.'};
+$('cback').onclick=()=>{$('cx').style.display='none';$('menu').style.display='flex'};
+$('cin').onclick=sbLogin;$('cnow').onclick=()=>{if(!SS){$('cmsg').textContent='Sign in first.';return}sbPull()};
+$('cout').onclick=()=>{SS=null;sbSave();$('cmsg').textContent='Signed out. Your data stays on this device.';$('sync').textContent=' 📱 Saved on this device'};
+$('clink').onclick=async()=>{if(!SB){$('cmsg').textContent='Sign in once first.';return}const t=await enc({u:SB.u,k:SB.k}),u=location.href.split('#')[0]+'#sb='+t;try{await navigator.clipboard.writeText(u);$('cmsg').textContent='Setup link copied. Open it on your other device, then enter your email and password.'}catch(e){$('cu').value=u;$('cmsg').textContent='Copy the text in the first box and open it on your other device.'}};
+if(location.hash.startsWith('#sb=')){dec(location.hash.slice(4)).then(o=>{SB={u:o.u,k:o.k,e:''};sbSave();history.replaceState(null,'',location.pathname+location.search);$('cm').click();$('cmsg').textContent='Setup received. Enter your email and password.'}).catch(()=>{})}
+if(SS&&SB)sbPull();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sbPull()});
+var CS=[],CP=[];try{const c=JSON.parse(localStorage.getItem('rd_cloud')||'null');if(c){CS=c.s||[];CP=c.p||[]}}catch(e){}
+function cOn(s){return S.cOn&&s.id in S.cOn?S.cOn[s.id]:s.active!==false}
+function pList(){const el=$('plist');el.innerHTML='';(CP||[]).filter(p=>p.active!==false).forEach(p=>{const b=document.createElement('button');b.className='sm';b.textContent='📜 '+p.name;b.onclick=()=>{$('ptx').value=p.body;$('pcnt').textContent=phr(p.body).length+' phrases found'};el.append(b)})}
+async function cLoad(){if(!CLOUD.url||!CLOUD.key){$('sync').textContent=' ⚙ Teacher content is not set up yet';return}
+try{const r=await fetch(CLOUD.url.replace(/\/+$/,'')+'/rest/v1/content?select=id,kind,lang,name,body,active&order=name.asc',{headers:{apikey:CLOUD.key}});if(!r.ok)throw new Error('error '+r.status);const rows=await r.json();CS=[];CP=[];rows.forEach(x=>{if(x.kind==='poem')CP.push({id:x.id,name:x.name,body:x.body,active:x.active});else CS.push({id:'c:'+x.id,name:x.name,lang:x.lang,words:parseW(x.body),active:x.active})});try{localStorage.setItem('rd_cloud',JSON.stringify({s:CS,p:CP}))}catch(e){}$('sync').textContent=' ☁️ Teacher content loaded ('+(CS.length+CP.length)+')'}catch(x){$('sync').textContent=(CS.length||CP.length)?' 📴 Offline: using the last saved teacher content':' ⚠ Could not load teacher content'}act();if($('sx').style.display==='flex')sRender()}
+$('bsql').onclick=()=>{const q=s=>'$b$'+s+'$b$',o=[],row=(id,kind,lang,name,body)=>o.push('insert into public.content (id,kind,lang,name,body) values ('+[id,kind,lang,name,body].map(q).join(',')+') on conflict (id) do update set name=excluded.name, body=excluded.body, updated_at=now();');
+(S.secs||[]).forEach(s=>row('w-'+s.id,'words',s.lang,s.name,s.words.map(w=>w[0]+' | '+w[2]).join('\n')));if(S.poem)row('p-1','poem','hi','Poem',S.poem);
+const t=o.join('\n\n')||'-- Nothing to upload yet. Save a section or a poem first.',a=$('ssql');a.style.display='block';a.value=t;try{navigator.clipboard.writeText(t);$('smsg').textContent='SQL copied. Paste it in the Supabase SQL Editor and press Run.'}catch(e){$('smsg').textContent='Copy the SQL from the box, then run it in the Supabase SQL Editor.'}};
+cLoad();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)cLoad()});
+$('best').textContent='Best: '+S.best;fill();resize();requestAnimationFrame(loop);
+</script></body></html>
