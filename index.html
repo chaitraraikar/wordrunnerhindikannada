@@ -85,7 +85,10 @@ small{color:var(--mut);display:block;margin-top:6px}
 <div class="seg"><button id="bdl">⬇ Backup file</button><label style="flex:1;padding:11px;border-radius:14px;background:var(--chip);font-weight:800;cursor:pointer">⬆ Restore<input id="rfile" type="file" accept=".json,application/json" style="display:none"></label></div>
 <button class="sm" id="blink">🔗 Make a share link</button><input id="slink" readonly style="display:none;width:100%;margin-top:6px;padding:8px;border-radius:10px;border:2px solid var(--chip);background:var(--chip);color:var(--ink)">
 <button class="big" id="simp" style="display:none">⬇ Import shared set</button>
-<button class="sm" id="bsql">📤 Make Supabase upload SQL (teacher)</button><textarea id="ssql" readonly style="display:none;height:120px;width:100%;margin-top:6px"></textarea>
+<button class="sm" id="bsql" style="display:none">📤 Make Supabase upload SQL (teacher)</button><textarea id="ssql" readonly style="display:none;height:120px;width:100%;margin-top:6px"></textarea>
+<details style="margin-top:10px;text-align:left"><summary>🔐 Teacher: publish to cloud</summary>
+<input id="tpass" type="password" placeholder="Teacher passcode" style="width:100%;padding:10px;border-radius:12px;border:2px solid var(--chip);background:var(--chip);color:var(--ink);font:700 16px inherit;font-family:inherit;margin-top:6px">
+<button class="big" id="tpub">☁️ Publish to cloud</button><small>Sends all your sections (and the poem) so every device shows them. A section you untick here is switched off for everyone.</small></details>
 <button class="sm" id="sback">← Menu</button></div></div>
 <div id="wr"><div class="box"><h2>✍️ Writing practice</h2><small id="wstep"></small>
 <div id="we"></div><div id="ww"></div>
@@ -116,7 +119,7 @@ small{color:var(--mut);display:block;margin-top:6px}
 </div></div>
 <script>
 // ===== TEACHER: paste your Supabase Project URL and publishable key between the quotes =====
-const CLOUD={url:'https://kzzkcvfduicjeakghsgt.supabase.co',key:'sb_publishable_25wpmr18kiIJztrmKka2xg_ZCwVxIbc'};
+const CLOUD={url:'',key:''};
 const D={hi:{c:'hi-IN',w:[['आम','aam','🥭'],['घर','ghar','🏠'],['पानी','paani','💧'],['फूल','phool','🌸'],['किताब','kitaab','📖'],['सूरज','sooraj','☀️'],['चाँद','chaand','🌙'],['मछली','machhli','🐟'],['पेड़','ped','🌳'],['गाय','gaay','🐄'],['बिल्ली','billi','🐱'],['कुत्ता','kutta','🐶']]},
 kn:{c:'kn-IN',w:[['ಮಾವು','maavu','🥭'],['ಮನೆ','mane','🏠'],['ನೀರು','neeru','💧'],['ಹೂವು','hoovu','🌸'],['ಪುಸ್ತಕ','pustaka','📖'],['ಸೂರ್ಯ','soorya','☀️'],['ಚಂದ್ರ','chandra','🌙'],['ಮೀನು','meenu','🐟'],['ಮರ','mara','🌳'],['ಹಸು','hasu','🐄'],['ಬೆಕ್ಕು','bekku','🐱'],['ನಾಯಿ','naayi','🐶']]}};
 D.hi.w.push(['केला','','🍌'],['सेब','','🍎'],['अंगूर','','🍇'],['संतरा','','🍊'],['तरबूज','','🍉'],['आँख','','👁️'],['कान','','👂'],['नाक','','👃'],['हाथ','','✋'],['दिल','','❤️'],['बंदर','','🐵'],['हाथी','','🐘'],['शेर','','🦁'],['घोड़ा','','🐴'],['मोर','','🦚'],['तोता','','🦜'],['साँप','','🐍'],['चूहा','','🐭'],['भालू','','🐻'],['बकरी','','🐐'],['मुर्गा','','🐓'],['कार','','🚗'],['रेल','','🚆'],['नाव','','⛵'],['घड़ी','','🕒'],['जूता','','👟'],['टोपी','','🧢'],['छाता','','☂️'],['चाबी','','🔑'],['कुर्सी','','🪑'],['तारा','','⭐'],['बादल','','☁️'],['आग','','🔥'],['पहाड़','','⛰️'],['दूध','','🥛'],['अंडा','','🥚'],['गेंद','','⚽'],['पतंग','','🪁']);
@@ -275,7 +278,7 @@ function parseW(t){const o=[];t.split(/\n+/).forEach(l=>{const p=l.split(/[|,\t]
 const sv2=()=>{save();act()};
 function sRender(){const el=$('slist');el.innerHTML='';$('slang').textContent=L==='hi'?'Hindi':'Kannada';const row=(label,on,cb,del)=>{const d=document.createElement('div');d.className='srow';const c=document.createElement('input');c.type='checkbox';c.checked=on;c.onchange=()=>cb(c.checked);const s=document.createElement('span');s.textContent=label;d.append(c,s);if(del){const b=document.createElement('button');b.textContent='🗑';b.onclick=()=>{if(b.dataset.s)del();else{b.dataset.s=1;b.textContent='Tap again to delete'}};d.append(b)}el.append(d)};
 row('⭐ Starter words ('+D[L].w.length+')',S.bi!==false,v=>{S.bi=v;sv2()});
-S.secs.filter(s=>s.lang===L).forEach(s=>row(s.name+' ('+s.words.length+')',s.on,v=>{s.on=v;sv2()},()=>{S.secs=S.secs.filter(x=>x!==s);sv2();sRender()}));
+S.secs.filter(s=>s.lang===L).forEach(s=>row(s.name+' ('+s.words.length+')',s.on,v=>{s.on=v;sv2()},()=>{if(s.pub)tdel('w-'+s.id);S.secs=S.secs.filter(x=>x!==s);sv2();sRender()}));
 (CS||[]).filter(s=>s.lang===L).forEach(s=>row('☁️ '+s.name+' ('+s.words.length+')',cOn(s),v=>{S.cOn=S.cOn||{};S.cOn[s.id]=v;sv2()}))}
 $('sm').onclick=()=>{$('menu').style.display='none';$('sx').style.display='flex';$('smsg').textContent='';sRender()};
 $('sback').onclick=()=>{$('sx').style.display='none';$('menu').style.display='flex';act()};
@@ -315,11 +318,18 @@ var CS=[],CP=[];try{const c=JSON.parse(localStorage.getItem('rd_cloud')||'null')
 function cOn(s){return S.cOn&&s.id in S.cOn?S.cOn[s.id]:s.active!==false}
 function pList(){const el=$('plist');el.innerHTML='';(CP||[]).filter(p=>p.active!==false).forEach(p=>{const b=document.createElement('button');b.className='sm';b.textContent='📜 '+p.name;b.onclick=()=>{$('ptx').value=p.body;$('pcnt').textContent=phr(p.body).length+' phrases found'};el.append(b)})}
 async function cLoad(){if(!CLOUD.url||!CLOUD.key){$('sync').textContent=' ⚙ Teacher content is not set up yet';return}
-try{const r=await fetch(CLOUD.url.replace(/\/+$/,'')+'/rest/v1/content?select=id,kind,lang,name,body,active&order=name.asc',{headers:{apikey:CLOUD.key}});if(!r.ok)throw new Error('error '+r.status);const rows=await r.json();CS=[];CP=[];rows.forEach(x=>{if(x.kind==='poem')CP.push({id:x.id,name:x.name,body:x.body,active:x.active});else CS.push({id:'c:'+x.id,name:x.name,lang:x.lang,words:parseW(x.body),active:x.active})});try{localStorage.setItem('rd_cloud',JSON.stringify({s:CS,p:CP}))}catch(e){}$('sync').textContent=' ☁️ Teacher content loaded ('+(CS.length+CP.length)+')'}catch(x){$('sync').textContent=(CS.length||CP.length)?' 📴 Offline: using the last saved teacher content':' ⚠ Could not load teacher content'}act();if($('sx').style.display==='flex')sRender()}
+try{const r=await fetch(CLOUD.url.replace(/\/+$/,'')+'/rest/v1/content?select=id,kind,lang,name,body,active&order=name.asc',{headers:{apikey:CLOUD.key}});if(!r.ok)throw new Error('error '+r.status);const rows=await r.json();CS=[];CP=[];rows.forEach(x=>{if(x.kind==='words'&&(S.secs||[]).some(s=>'w-'+s.id===x.id))return;if(x.kind==='poem')CP.push({id:x.id,name:x.name,body:x.body,active:x.active});else CS.push({id:'c:'+x.id,name:x.name,lang:x.lang,words:parseW(x.body),active:x.active})});try{localStorage.setItem('rd_cloud',JSON.stringify({s:CS,p:CP}))}catch(e){}$('sync').textContent=' ☁️ Teacher content loaded ('+(CS.length+CP.length)+')'}catch(x){$('sync').textContent=(CS.length||CP.length)?' 📴 Offline: using the last saved teacher content':' ⚠ Could not load teacher content'}act();if($('sx').style.display==='flex')sRender()}
 $('bsql').onclick=()=>{const q=s=>'$b$'+s+'$b$',o=[],row=(id,kind,lang,name,body)=>o.push('insert into public.content (id,kind,lang,name,body) values ('+[id,kind,lang,name,body].map(q).join(',')+') on conflict (id) do update set name=excluded.name, body=excluded.body, updated_at=now();');
 (S.secs||[]).forEach(s=>row('w-'+s.id,'words',s.lang,s.name,s.words.map(w=>w[0]+' | '+w[2]).join('\n')));if(S.poem)row('p-1','poem','hi','Poem',S.poem);
 const t=o.join('\n\n')||'-- Nothing to upload yet. Save a section or a poem first.',a=$('ssql');a.style.display='block';a.value=t;try{navigator.clipboard.writeText(t);$('smsg').textContent='SQL copied. Paste it in the Supabase SQL Editor and press Run.'}catch(e){$('smsg').textContent='Copy the SQL from the box, then run it in the Supabase SQL Editor.'}};
 cLoad();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)cLoad()});
+async function rpc(fn,body){const r=await fetch(CLOUD.url.replace(/\/+$/,'')+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:CLOUD.key,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok){let m='error '+r.status;try{const j=await r.json();m=j.message||m}catch(e){}throw new Error(m)}return r}
+$('tpub').onclick=async()=>{const p=$('tpass').value.trim();if(!CLOUD.url||!CLOUD.key){$('smsg').textContent='Cloud is not set up in index.html yet.';return}if(!p){$('smsg').textContent='Enter the teacher passcode first.';return}
+const rows=(S.secs||[]).map(s=>({id:'w-'+s.id,kind:'words',lang:s.lang,name:s.name,active:s.on!==false,body:s.words.map(w=>w[0]+' | '+w[2]).join('\n')}));if(S.poem)rows.push({id:'p-1',kind:'poem',lang:'hi',name:'Poem',active:true,body:S.poem});
+if(!rows.length){$('smsg').textContent='Nothing to publish yet. Save a section or a poem first.';return}
+$('smsg').textContent='Publishing...';try{await rpc('publish_content',{p_pass:p,p_rows:rows});try{localStorage.setItem('rd_tp',p)}catch(e){}(S.secs||[]).forEach(s=>s.pub=true);sv2();$('smsg').textContent='Published '+rows.length+' items ✓ Every device shows them the next time it opens.';await cLoad()}catch(x){$('smsg').textContent=/passcode/i.test(x.message)?'Wrong passcode.':'Could not publish: '+x.message}};
+function tdel(id){const p=$('tpass').value.trim();if(!p||!CLOUD.url)return;rpc('delete_content',{p_pass:p,p_id:id}).then(()=>cLoad()).catch(()=>{})}
+try{$('tpass').value=localStorage.getItem('rd_tp')||''}catch(e){}
 $('best').textContent='Best: '+S.best;fill();resize();requestAnimationFrame(loop);
 </script></body></html>
