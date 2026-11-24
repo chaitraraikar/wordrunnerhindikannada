@@ -42,7 +42,7 @@ button.sm{width:100%;margin-top:8px}
 details{margin-top:10px;text-align:left}summary{font-weight:800;cursor:pointer}
 textarea{width:100%;height:84px;margin-top:6px;border-radius:12px;border:2px solid var(--chip);padding:8px;font:16px 'Noto Sans Devanagari','Noto Sans Kannada',system-ui,sans-serif;background:var(--chip);color:var(--ink)}
 small{color:var(--mut);display:block;margin-top:6px}
-</style></head><body>
+</style><script src="config.js"></script></head><body>
 <canvas id="cv"></canvas>
 <div id="hud"><span id="hl"></span><span id="hm"></span><span id="hs"></span></div>
 <div id="wb"><b id="wt"></b><span id="ws"></span><div id="hd"></div></div>
@@ -101,7 +101,7 @@ small{color:var(--mut);display:block;margin-top:6px}
 </div></div>
 <div id="poem"><div class="box">
 <div id="pset"><h2>📜 Poem practice</h2><p>Paste the Hindi poem once. It is cut into short phrases and taught in order, one phrase at a time.</p>
-<div id="plist"></div><textarea id="ptx" placeholder="Paste the poem here..."></textarea><small id="pcnt"></small>
+<div id="plist"></div><input id="pname" placeholder="Poem name (e.g. Baya)" style="width:100%;padding:10px;border-radius:12px;border:2px solid var(--chip);background:var(--chip);color:var(--ink);font:700 16px inherit;font-family:inherit;margin-bottom:6px"><textarea id="ptx" placeholder="Paste the poem here..."></textarea><small id="pcnt"></small>
 <button class="big" id="pstart">▶ Start learning</button><button class="sm" id="pback0">← Menu</button></div>
 <div id="pplay" style="display:none"><small id="ppos"></small><div id="pbar"><i></i></div><div id="pstep"></div>
 <div id="pt"></div><div id="pchips"></div><div id="phd"></div>
@@ -119,7 +119,7 @@ small{color:var(--mut);display:block;margin-top:6px}
 </div></div>
 <script>
 // ===== TEACHER: paste your Supabase Project URL and publishable key between the quotes =====
-const CLOUD={url:'',key:''};
+const CLOUD=Object.assign({url:'https://kzzkcvfduicjeakghsgt.supabase.co',key:'sb_publishable_25wpmr18kiIJztrmKka2xg_ZCwVxIbc'},window.CLOUD_CFG||{});
 const D={hi:{c:'hi-IN',w:[['आम','aam','🥭'],['घर','ghar','🏠'],['पानी','paani','💧'],['फूल','phool','🌸'],['किताब','kitaab','📖'],['सूरज','sooraj','☀️'],['चाँद','chaand','🌙'],['मछली','machhli','🐟'],['पेड़','ped','🌳'],['गाय','gaay','🐄'],['बिल्ली','billi','🐱'],['कुत्ता','kutta','🐶']]},
 kn:{c:'kn-IN',w:[['ಮಾವು','maavu','🥭'],['ಮನೆ','mane','🏠'],['ನೀರು','neeru','💧'],['ಹೂವು','hoovu','🌸'],['ಪುಸ್ತಕ','pustaka','📖'],['ಸೂರ್ಯ','soorya','☀️'],['ಚಂದ್ರ','chandra','🌙'],['ಮೀನು','meenu','🐟'],['ಮರ','mara','🌳'],['ಹಸು','hasu','🐄'],['ಬೆಕ್ಕು','bekku','🐱'],['ನಾಯಿ','naayi','🐶']]}};
 D.hi.w.push(['केला','','🍌'],['सेब','','🍎'],['अंगूर','','🍇'],['संतरा','','🍊'],['तरबूज','','🍉'],['आँख','','👁️'],['कान','','👂'],['नाक','','👃'],['हाथ','','✋'],['दिल','','❤️'],['बंदर','','🐵'],['हाथी','','🐘'],['शेर','','🦁'],['घोड़ा','','🐴'],['मोर','','🦚'],['तोता','','🦜'],['साँप','','🐍'],['चूहा','','🐭'],['भालू','','🐻'],['बकरी','','🐐'],['मुर्गा','','🐓'],['कार','','🚗'],['रेल','','🚆'],['नाव','','⛵'],['घड़ी','','🕒'],['जूता','','👟'],['टोपी','','🧢'],['छाता','','☂️'],['चाबी','','🔑'],['कुर्सी','','🪑'],['तारा','','⭐'],['बादल','','☁️'],['आग','','🔥'],['पहाड़','','⛰️'],['दूध','','🥛'],['अंडा','','🥚'],['गेंद','','⚽'],['पतंग','','🪁']);
@@ -251,12 +251,12 @@ prec.onerror=e=>{$('phd').textContent=e.error==='not-allowed'||e.error==='servic
 prec.onend=()=>{$('pmic').textContent='🎤 Say it';prec=null};
 try{prec.start()}catch(e){prec=null}}
 function pHear(){if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(PH[pi]);u.lang='hi-IN';u.rate=.7;speechSynthesis.speak(u)}
-function pSet(){try{prec&&prec.abort()}catch(e){}$('pset').style.display='block';$('pplay').style.display='none';$('ptx').value=S.poem||'';pList();$('pcnt').textContent=phr($('ptx').value).length+' phrases found'}
+function pSet(){try{prec&&prec.abort()}catch(e){}$('pset').style.display='block';$('pplay').style.display='none';$('ptx').value=S.poem||'';const cp=(S.poems||[]).find(x=>x.body===S.poem);$('pname').value=cp?cp.name:'';pList();$('pcnt').textContent=phr($('ptx').value).length+' phrases found'}
 $('prun').onclick=()=>{PH=phr(S.poem||((CP||[])[0]||{}).body||'');if(PH.length<2){$('mm').textContent='First paste the poem in Poem practice.';return}poemMode=true;pgi=0;start()};
 $('pm').onclick=()=>{$('menu').style.display='none';$('poem').style.display='flex';pSet()};
 $('pback0').onclick=$('pedit').onclick=()=>{try{prec&&prec.abort()}catch(e){}if($('pplay').style.display==='block'&&this!==0){pSet();return}$('poem').style.display='none';$('menu').style.display='flex'};
 $('ptx').oninput=()=>{$('pcnt').textContent=phr($('ptx').value).length+' phrases found'};
-$('pstart').onclick=()=>{const t=$('ptx').value.trim();PH=phr(t);if(PH.length<2){$('pcnt').textContent='Please paste the poem first.';return}const same=S.poem===t;S.poem=t;pi=same&&S.pi<PH.length?(S.pi||0):0;ps=0;pdone=false;save();$('pset').style.display='none';$('pplay').style.display='block';pShow()};
+$('pstart').onclick=()=>{const t=$('ptx').value.trim();PH=phr(t);if(PH.length<2){$('pcnt').textContent='Please paste the poem first.';return}const nm=$('pname').value.trim()||'Poem '+((S.poems||[]).length+1);S.poems=S.poems||[];const pp=S.poems.find(x=>x.name.toLowerCase()===nm.toLowerCase());if(pp){if(pp.body!==t){pp.body=t;pp.pub=false}}else S.poems.push({id:'q'+Date.now(),name:nm,body:t});const same=S.poem===t;S.poem=t;pi=same&&S.pi<PH.length?(S.pi||0):0;ps=0;pdone=false;save();$('pset').style.display='none';$('pplay').style.display='block';pShow()};
 $('phear').onclick=()=>{if(pdone){pdone=false;pShow();return}pHear()};$('pmic').onclick=pListen;
 $('ppeek').onclick=()=>{if(pdone){pdone=false;pShow();return}$('pt').textContent=PH[pi];pHear()};
 $('pskip').onclick=()=>{if(pdone){pdone=false;pShow();return}pAdv()};
@@ -316,20 +316,25 @@ if(SS&&SB)sbPull();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)sbPull()});
 var CS=[],CP=[];try{const c=JSON.parse(localStorage.getItem('rd_cloud')||'null');if(c){CS=c.s||[];CP=c.p||[]}}catch(e){}
 function cOn(s){return S.cOn&&s.id in S.cOn?S.cOn[s.id]:s.active!==false}
-function pList(){const el=$('plist');el.innerHTML='';(CP||[]).filter(p=>p.active!==false).forEach(p=>{const b=document.createElement('button');b.className='sm';b.textContent='📜 '+p.name;b.onclick=()=>{$('ptx').value=p.body;$('pcnt').textContent=phr(p.body).length+' phrases found'};el.append(b)})}
+function pList(){const el=$('plist');el.innerHTML='';const op=p=>{$('pname').value=p.name;$('ptx').value=p.body;$('pcnt').textContent=phr(p.body).length+' phrases found'};
+const add=(label,open,del)=>{const d=document.createElement('div');d.className='srow';const s=document.createElement('span');s.textContent=label;s.style.cursor='pointer';s.onclick=open;d.append(s);if(del){const b=document.createElement('button');b.textContent='🗑';b.onclick=()=>{if(b.dataset.s)del();else{b.dataset.s=1;b.textContent='Tap again'}};d.append(b)}el.append(d)};
+(S.poems||[]).forEach(p=>add('📜 '+p.name,()=>op(p),()=>{if(p.pub)tdel('p-'+p.id);S.poems=S.poems.filter(x=>x!==p);sv2();pList()}));
+(CP||[]).filter(p=>p.active!==false&&!(S.poems||[]).some(x=>x.name===p.name)).forEach(p=>add('☁️ '+p.name,()=>op(p)))}
+function pListOld(){const el=$('plist');el.innerHTML='';(CP||[]).filter(p=>p.active!==false).forEach(p=>{const b=document.createElement('button');b.className='sm';b.textContent='📜 '+p.name;b.onclick=()=>{$('ptx').value=p.body;$('pcnt').textContent=phr(p.body).length+' phrases found'};el.append(b)})}
 async function cLoad(){if(!CLOUD.url||!CLOUD.key){$('sync').textContent=' ⚙ Teacher content is not set up yet';return}
-try{const r=await fetch(CLOUD.url.replace(/\/+$/,'')+'/rest/v1/content?select=id,kind,lang,name,body,active&order=name.asc',{headers:{apikey:CLOUD.key}});if(!r.ok)throw new Error('error '+r.status);const rows=await r.json();CS=[];CP=[];rows.forEach(x=>{if(x.kind==='words'&&(S.secs||[]).some(s=>'w-'+s.id===x.id))return;if(x.kind==='poem')CP.push({id:x.id,name:x.name,body:x.body,active:x.active});else CS.push({id:'c:'+x.id,name:x.name,lang:x.lang,words:parseW(x.body),active:x.active})});try{localStorage.setItem('rd_cloud',JSON.stringify({s:CS,p:CP}))}catch(e){}$('sync').textContent=' ☁️ Teacher content loaded ('+(CS.length+CP.length)+')'}catch(x){$('sync').textContent=(CS.length||CP.length)?' 📴 Offline: using the last saved teacher content':' ⚠ Could not load teacher content'}act();if($('sx').style.display==='flex')sRender()}
+try{const r=await fetch(CLOUD.url.replace(/\/+$/,'')+'/rest/v1/content?select=id,kind,lang,name,body,active&order=name.asc',{headers:{apikey:CLOUD.key}});if(!r.ok)throw new Error('error '+r.status);const rows=await r.json();CS=[];CP=[];rows.forEach(x=>{if(x.kind==='words'&&(S.secs||[]).some(s=>'w-'+s.id===x.id))return;if(x.kind==='poem'&&(S.poems||[]).some(p=>'p-'+p.id===x.id))return;if(x.kind==='poem')CP.push({id:x.id,name:x.name,body:x.body,active:x.active});else CS.push({id:'c:'+x.id,name:x.name,lang:x.lang,words:parseW(x.body),active:x.active})});try{localStorage.setItem('rd_cloud',JSON.stringify({s:CS,p:CP}))}catch(e){}$('sync').textContent=' ☁️ Teacher content loaded ('+(CS.length+CP.length)+')'}catch(x){$('sync').textContent=(CS.length||CP.length)?' 📴 Offline: using the last saved teacher content':' ⚠ Could not load teacher content'}act();if($('sx').style.display==='flex')sRender()}
 $('bsql').onclick=()=>{const q=s=>'$b$'+s+'$b$',o=[],row=(id,kind,lang,name,body)=>o.push('insert into public.content (id,kind,lang,name,body) values ('+[id,kind,lang,name,body].map(q).join(',')+') on conflict (id) do update set name=excluded.name, body=excluded.body, updated_at=now();');
 (S.secs||[]).forEach(s=>row('w-'+s.id,'words',s.lang,s.name,s.words.map(w=>w[0]+' | '+w[2]).join('\n')));if(S.poem)row('p-1','poem','hi','Poem',S.poem);
 const t=o.join('\n\n')||'-- Nothing to upload yet. Save a section or a poem first.',a=$('ssql');a.style.display='block';a.value=t;try{navigator.clipboard.writeText(t);$('smsg').textContent='SQL copied. Paste it in the Supabase SQL Editor and press Run.'}catch(e){$('smsg').textContent='Copy the SQL from the box, then run it in the Supabase SQL Editor.'}};
 cLoad();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)cLoad()});
 async function rpc(fn,body){const r=await fetch(CLOUD.url.replace(/\/+$/,'')+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:CLOUD.key,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok){let m='error '+r.status;try{const j=await r.json();m=j.message||m}catch(e){}throw new Error(m)}return r}
-$('tpub').onclick=async()=>{const p=$('tpass').value.trim();if(!CLOUD.url||!CLOUD.key){$('smsg').textContent='Cloud is not set up in index.html yet.';return}if(!p){$('smsg').textContent='Enter the teacher passcode first.';return}
-const rows=(S.secs||[]).map(s=>({id:'w-'+s.id,kind:'words',lang:s.lang,name:s.name,active:s.on!==false,body:s.words.map(w=>w[0]+' | '+w[2]).join('\n')}));if(S.poem)rows.push({id:'p-1',kind:'poem',lang:'hi',name:'Poem',active:true,body:S.poem});
+$('tpub').onclick=async()=>{const p=$('tpass').value.trim();if(!CLOUD.url||!CLOUD.key){$('smsg').textContent='Cloud is not set up. Fill in config.js on GitHub first.';return}if(!p){$('smsg').textContent='Enter the teacher passcode first.';return}
+const rows=(S.secs||[]).map(s=>({id:'w-'+s.id,kind:'words',lang:s.lang,name:s.name,active:s.on!==false,body:s.words.map(w=>w[0]+' | '+w[2]).join('\n')}));(S.poems||[]).forEach(p=>rows.push({id:'p-'+p.id,kind:'poem',lang:'hi',name:p.name,active:true,body:p.body}));
 if(!rows.length){$('smsg').textContent='Nothing to publish yet. Save a section or a poem first.';return}
-$('smsg').textContent='Publishing...';try{await rpc('publish_content',{p_pass:p,p_rows:rows});try{localStorage.setItem('rd_tp',p)}catch(e){}(S.secs||[]).forEach(s=>s.pub=true);sv2();$('smsg').textContent='Published '+rows.length+' items ✓ Every device shows them the next time it opens.';await cLoad()}catch(x){$('smsg').textContent=/passcode/i.test(x.message)?'Wrong passcode.':'Could not publish: '+x.message}};
+$('smsg').textContent='Publishing...';try{await rpc('publish_content',{p_pass:p,p_rows:rows});try{localStorage.setItem('rd_tp',p)}catch(e){}(S.secs||[]).forEach(s=>s.pub=true);(S.poems||[]).forEach(p=>p.pub=true);sv2();$('smsg').textContent='Published '+rows.length+' items ✓ Every device shows them the next time it opens.';await cLoad()}catch(x){$('smsg').textContent=/passcode/i.test(x.message)?'Wrong passcode.':'Could not publish: '+x.message}};
 function tdel(id){const p=$('tpass').value.trim();if(!p||!CLOUD.url)return;rpc('delete_content',{p_pass:p,p_id:id}).then(()=>cLoad()).catch(()=>{})}
 try{$('tpass').value=localStorage.getItem('rd_tp')||''}catch(e){}
+S.poems=S.poems||[];if(S.poem&&!S.poems.length)S.poems.push({id:'1',name:'Poem',body:S.poem});
 $('best').textContent='Best: '+S.best;fill();resize();requestAnimationFrame(loop);
 </script></body></html>
